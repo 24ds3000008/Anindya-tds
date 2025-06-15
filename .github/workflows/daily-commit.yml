@@ -2,27 +2,28 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '5 17 * * *'  # Adjust to your next test run
+    - cron: '45 17 * * *'  # Adjust this to match your next test time
   workflow_dispatch:
 
 jobs:
   daily-commit:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Git config
+      - name: Set up Git user
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Make a change with email 24ds3000000@ds.study.iitm.ac.in
         run: |
           echo "Updated on $(date +%s)" >> daily.log
 
-      - name: Commit and Push
+      - name: Commit and push changes
         run: |
           git add daily.log
-          git commit -m "Automated commit from workflow at $(date)" || echo "No changes to commit"
-          git push
+          git commit -m "Automated update: $(date)" || echo "No changes to commit"
+          git push origin HEAD
