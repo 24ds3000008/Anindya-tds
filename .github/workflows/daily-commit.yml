@@ -2,7 +2,7 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # Runs at 2:00 AM UTC every day
+    - cron: '25 16 * * *'  # Replace with a time slightly ahead of your current time to test
   workflow_dispatch:
 
 jobs:
@@ -12,12 +12,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Add commit with email 24ds3000000@ds.study.iitm.ac.in
+      - name: Set up Git config
         run: |
-          echo "Daily update: $(date)" >> daily.log
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add daily.log
-          git commit -m "Automated daily update"
-          git push
 
+      - name: Make a change with email 24ds3000000@ds.study.iitm.ac.in
+        run: |
+          echo "Updated on $(date)" >> daily.log
+
+      - name: Commit and Push
+        run: |
+          git add daily.log
+          git commit -m "Automated commit from workflow at $(date)" || echo "No changes to commit"
+          git push
