@@ -2,7 +2,7 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '25 16 * * *'  # Replace with a time slightly ahead of your current time to test
+    - cron: '5 17 * * *'  # Adjust to your next test run
   workflow_dispatch:
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
 
       - name: Make a change with email 24ds3000000@ds.study.iitm.ac.in
         run: |
-          echo "Updated on $(date)" >> daily.log
+          echo "Updated on $(date +%s)" >> daily.log
 
       - name: Commit and Push
         run: |
